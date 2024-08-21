@@ -6,7 +6,7 @@ nlp_processor = NLPProcessor()
 
 @app.route('/')
 def home():
-    return jsonify({"message": "Welcome to the Personalized AI Assistant!"})
+    return jsonify({"message": "Welcome to the Enhanced Personalized AI Assistant!"})
 
 @app.route('/ask', methods=['POST'])
 def ask():
