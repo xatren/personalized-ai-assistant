@@ -13,11 +13,12 @@ def ask():
     data = request.json
     question = data.get('question')
     context = data.get('context', "This is a placeholder context.")
+    user_id = data.get('user_id')
 
     if not question:
         return jsonify({"error": "Question is required"}), 400
 
-    answer = nlp_processor.process_input(question, context)
+    answer = nlp_processor.process_input(question, context, user_id)
     return jsonify({"answer": answer})
 
 if __name__ == '__main__':

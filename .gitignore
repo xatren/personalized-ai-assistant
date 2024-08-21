@@ -3,3 +3,5 @@
 .venv/Scripts
 /venv
 /nlp_module/__pycache__
+.env
+__pycache__
