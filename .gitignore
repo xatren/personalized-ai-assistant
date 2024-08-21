@@ -1,0 +1,5 @@
+.venv
+.venv/Lib
+.venv/Scripts
+/venv
+/nlp_module/__pycache__
