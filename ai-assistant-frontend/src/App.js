@@ -6,6 +6,7 @@ function App() {
   const [response, setResponse] = useState('');
   const [loading, setLoading] = useState(false);
   const [history, setHistory] = useState([]);  // State for history
+  const [userId, setUserId] = useState('user_001');  // Static user ID for now
   const [darkMode, setDarkMode] = useState(false);  // State for dark mode
 
   // Load dark mode and history settings from localStorage when the component mounts
@@ -18,6 +19,16 @@ function App() {
     const storedHistory = JSON.parse(localStorage.getItem('history'));
     if (storedHistory) {
       setHistory(storedHistory);
+    }
+
+    const savedUserId = localStorage.getItem('userId');
+    if (savedUserId) {
+      setUserId(savedUserId);
+    } else {
+      // Generate a unique userId if one doesn't exist
+      const newUserId = `user_${Date.now()}`;
+      setUserId(newUserId);
+      localStorage.setItem('userId', newUserId);
     }
   }, []);
 
@@ -46,7 +57,7 @@ function App() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ question, context: '' }),
+        body: JSON.stringify({ question, context: '', user_id: userId }),  // Send userId with the request
       });
 
       const data = await res.json();
@@ -59,6 +70,11 @@ function App() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleClearHistory = () => {
+    setHistory([]);  // Clear history from state
+    localStorage.removeItem('history');  // Clear history from localStorage
   };
 
   return (
@@ -117,6 +133,12 @@ function App() {
                 </li>
               ))}
             </ul>
+            <button
+              onClick={handleClearHistory}
+              className="mt-4 w-full bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
+            >
+              Clear History
+            </button>
           </div>
         )}
       </div>

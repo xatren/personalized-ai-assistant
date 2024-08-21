@@ -124,7 +124,7 @@ class NLPProcessor:
             "San Francisco", "Los Angeles", "Chicago", "Moscow",
             "Mumbai", "Sydney", "Shanghai", "Toronto", "Madrid", 
             "Rome", "Dubai", "Istanbul", "Beijing", "Hong Kong", 
-            "Singapore", "Mexico City"
+            "Singapore", "Mexico City", "Rio de Janeiro", "Cape Town", "Ankara", "Athens"
         ]
 
         words = question.split()
