@@ -1,7 +1,10 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS  # Import CORS
 from nlp_module.nlp_processor import NLPProcessor
 
 app = Flask(__name__)
+CORS(app)  # Enable CORS
+
 nlp_processor = NLPProcessor()
 
 @app.route('/')
