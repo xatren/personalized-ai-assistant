@@ -4,7 +4,10 @@ from sklearn.linear_model import LogisticRegression
 from weather import get_weather
 from config import WEATHER_API_KEY
 import string
-from news import get_news  # Import the news module
+from news import get_news 
+from stock import get_stock_price  
+
+
 
 
 class NLPProcessor:
@@ -57,6 +60,13 @@ class NLPProcessor:
         else:
             return "Sorry, I couldn't fetch the news right now."
         
+    def get_stock(self, symbol):
+        stock_data = get_stock_price(symbol)
+        if stock_data:
+            return f"The current price of {stock_data['symbol']} is ${stock_data['price']} as of {stock_data['timestamp']}."
+        else:
+            return "Sorry, I couldn't fetch the stock price right now."
+        
     def process_input(self, question, context, user_id=None):
     # Update memory with the user's context if available
         if user_id:
@@ -86,6 +96,10 @@ class NLPProcessor:
         elif intent == 'get_news':
             topic = self.extract_topic(question)  # You may need to create this method
             return self.get_news(topic)
+        
+        elif intent == 'get_stock_price':
+            symbol = self.extract_stock_symbol(question)  # You may need to create this method
+            return self.get_stock(symbol)
         # Add more intent processing as needed for other intents
         # elif intent == 'set_reminder':
         #     # Handle reminder setting
@@ -136,6 +150,15 @@ class NLPProcessor:
             if word.islower():
                 return word
         return "general news"
+
+    def extract_stock_symbol(self, question):
+        # Simple example to extract stock symbol from the question
+        words = question.split()
+        for word in words:
+            if word.isupper() and len(word) <= 5:  # Assuming stock symbols are uppercase and short
+                return word
+        return None
+
 
     def recognize_intent(self, user_input):
         X_test = self.vectorizer.transform([user_input])
