@@ -1,125 +1,168 @@
 # Personalized AI Assistant
 
-The **Personalized AI Assistant** is a Flask-based application designed to provide users with various functionalities, including weather information, news headlines, and stock market data. It utilizes NLP (Natural Language Processing) to interpret user queries and fetch relevant information through integrated APIs.
+A personalized AI assistant built using Python, Flask, and React, designed to maintain context across multiple interactions, provide real-time responses, and allow users to customize their interface. The assistant can answer questions, fetch weather data, provide news updates, retrieve stock prices, and more.
+
+## Table of Contents
+
+- [Features](#features)
+- [Project Structure](#project-structure)
+- [Installation](#installation)
+- [Running the Application](#running-the-application)
+- [Usage](#usage)
+- [Customization](#customization)
+- [API Integrations](#api-integrations)
+- [Troubleshooting](#troubleshooting)
+- [Contributing](#contributing)
+- [License](#license)
 
 ## Features
 
-- **Weather Information**: Get current weather data for a specified city using the OpenWeatherMap API.
-- **News Headlines**: Fetch the latest news headlines on various topics using the News API.
-- **Stock Market Data**: Retrieve real-time stock prices for specific stock symbols using the Alpha Vantage API.
-- **NLP-Based Intent Recognition**: Interpret and respond to user queries using an NLP pipeline.
+- **Context Awareness**: The assistant retains context across multiple questions, enabling more natural conversations.
+- **Customizable UI**: Users can switch themes, adjust font sizes, and personalize their interface.
+- **API Integrations**: Fetches real-time data such as weather updates, news, and stock prices.
+- **History Management**: Users can view their interaction history and clear it as needed.
 
 ## Project Structure
 
 ```
 personalized-ai-assistant/
 │
-├── app.py                  # Main Flask application file
-├── config.py               # Configuration file for storing API keys and settings
-├── requirements.txt        # Python dependencies required for the project
+├── backend/
+│   ├── app.py                # Main Flask application
+│   ├── nlp_module/
+│      ├── __init__.py       # Initializes the NLP module
+│      ├── nlp_processor.py  # Handles NLP tasks, context management, and API calls
+│   
 │
-├── nlp_module/             # NLP-related modules and logic
-│   ├── __init__.py
-│   └── nlp_processor.py    # NLPProcessor class handling various intents
+├── frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── Header.js        # Header component with theme and font size selectors
+│   │   │   ├── HistoryList.js   # Displays the history of user interactions
+│   │   │   └── QuestionForm.js  # Form to submit user questions
+│   │   ├── utils/
+│   │   │   ├── themes.js          # Theme configuration
+│   │   │   └── localStorageHelpers.js  # Helper functions for localStorage operations
+│   │   ├── App.js              # Main React component
+│   │   ├── Spinner.js          # Loading spinner component
+│   │   └── index.js            # Entry point for React
+│   └── public/
+│       ├── index.html          # Main HTML file
+│      
 │
-├── weather.py              # Weather API integration logic
-├── news.py                 # News API integration logic
-├── stock.py                # Stock Market API integration logic
-│
-└── .env                    # Environment file to securely store API keys (not included in version control)
+├── README.md                   # Project documentation
+├── requirements.txt            # Python dependencies
+└── package.json                # Node.js dependencies
 ```
 
 ## Installation
 
-### Prerequisites
-
-- Python 3.7 or higher
-- Flask
-- An account with API keys for:
-  - [OpenWeatherMap API](https://openweathermap.org/api)
-  - [News API](https://newsapi.org/)
-  - [Alpha Vantage API](https://www.alphavantage.co/support/#api-key)
-
-### Setup
-
-1. **Clone the repository**:
-
+### Backend (Python)
+1. Clone the repository:
    ```bash
    git clone https://github.com/xatren/personalized-ai-assistant.git
    cd personalized-ai-assistant
    ```
 
-2. **Create a virtual environment**:
-
+2. Create a virtual environment:
    ```bash
    python -m venv venv
-   source venv/bin/activate   # On Windows use `venv\Scripts\activate`
+   venv\Scripts\activate   # On MacOs use `source venv/bin/activate`
    ```
 
-3. **Install the required dependencies**:
-
+3. Install the required Python packages:
    ```bash
    pip install -r requirements.txt
    ```
 
-4. **Configure the environment variables**:
-
-   Create a `.env` file in the root directory and add your API keys:
-
+### Frontend (React)
+1. Navigate to the `frontend` directory:
    ```bash
-   OPENWEATHER_API_KEY=your_openweather_api_key_here
-   NEWS_API_KEY=your_news_api_key_here
-   STOCK_API_KEY=your_stock_api_key_here
+   cd frontend
    ```
 
-5. **Run the application**:
-
+2. Install the required Node.js packages:
    ```bash
-   python app.py
+   npm install
    ```
 
-   The application will start running on `http://127.0.0.1:5000/`.
+## Running the Application
+
+### Start the Backend Server
+
+Run the Flask server:
+```bash
+cd backend
+python app.py
+```
+
+### Start the Frontend Server
+
+Run the React development server:
+```bash
+cd frontend
+npm start
+```
+
+### Access the Application
+
+Open your browser and go to `http://localhost:3000` to use the AI Assistant.
 
 ## Usage
 
-### Endpoints
+### Asking Questions
 
-- **GET /**: Returns a welcome message.
-- **POST /ask**: Main endpoint to interact with the AI assistant. You need to send a JSON payload with a `question`, `context`, and optional `user_id`.
+- Enter your question in the input box and click "Ask". The assistant will process the question and respond based on the context of the conversation.
+  
+### Viewing History
 
-### Example Request
+- The interaction history is displayed below the input form. You can view past questions and answers, which are stored for the session.
 
-```json
-{
-  "user_id": "user_020",
-  "question": "What's the weather in Berlin?",
-  "context": ""
-}
-```
+### Clearing History
 
-### Example Response
+- Click "Clear History" to remove all past interactions from the current session.
 
-```json
-{
-  "answer": "The weather in Berlin is currently clear sky with a temperature of 18°C."
-}
-```
+### Customizing the Interface
 
-### Available Queries
+- Use the dropdowns in the header to change the theme (light, dark, blue) and adjust the font size (small, medium, large, extra large).
 
-- **Weather Queries**: "What's the weather in [City]?"
-- **News Queries**: "What's the latest news on [Topic]?"
-- **Stock Market Queries**: "What's the current price of [Stock Symbol]?"
+## Customization
+
+### Adding New Intents
+
+You can extend the `NLPProcessor` class to handle more types of questions and intents. Define new methods for processing these intents and update the `recognize_intent` method to detect them.
+
+### API Integrations
+
+The assistant integrates with various APIs (e.g., weather, news, stocks). You can add more APIs by defining new methods in `nlp_processor.py` and updating the frontend to utilize them.
+
+### Context Management
+
+The assistant maintains context using a dictionary keyed by `user_id`. You can extend this feature by adding more sophisticated context management strategies, such as using a database for persistent storage.
 
 ## Troubleshooting
 
-- **API Key Errors**: Ensure that all API keys are correctly set in the `.env` file.
-- **IndexError**: Ensure the external APIs return valid data. If the stock market is closed or the API limits are reached, data might be unavailable.
+### Connection Errors
+
+Ensure both the backend and frontend servers are running. Check that the endpoints in the frontend match the correct backend URLs.
 
 ## Contributing
 
-Contributions are welcome! Please fork this repository and submit pull requests to contribute.
+Contributions are welcome! Please fork the repository, create a new branch for your feature or bug fix, and submit a pull request.
+
+### Steps to Contribute:
+1. Fork the repository.
+2. Create a new branch:
+   ```bash
+   git checkout -b feature-name
+   ```
+3. Make your changes and commit them:
+   ```bash
+   git add .
+   git commit -m "Add new feature"
+   ```
+4. Push to your fork and submit a pull request.
 
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
