@@ -30,10 +30,16 @@ personalized-ai-assistant/
 ├── backend/
 │   ├── app.py                # Main Flask application
 │   ├── nlp_module/
-│      ├── __init__.py       # Initializes the NLP module
-│      ├── nlp_processor.py  # Handles NLP tasks, context management, and API calls
-│   
-│
+│   │   ├── __init__.py       # Initializes the NLP module
+│   │   └── nlp_processor.py  # Handles NLP tasks, context management, and API calls
+│   │            
+│   │           
+│   │              
+│   ├── config.py             # Configuration file for API keys and other settings
+│   ├── stock.py              # Handles stock market API calls and processing
+|   ├── weather.py            # Handles weather API calls and processing
+|   └── news.py               # Handles news API calls and processing
+|
 ├── frontend/
 │   ├── src/
 │   │   ├── components/
@@ -48,11 +54,12 @@ personalized-ai-assistant/
 │   │   └── index.js            # Entry point for React
 │   └── public/
 │       ├── index.html          # Main HTML file
-│      
+│       
 │
 ├── README.md                   # Project documentation
 ├── requirements.txt            # Python dependencies
 └── package.json                # Node.js dependencies
+
 ```
 
 ## Installation
