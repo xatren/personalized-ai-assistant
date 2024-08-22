@@ -9,10 +9,9 @@ function App() {
   const [response, setResponse] = useState('');
   const [loading, setLoading] = useState(false);
   const [history, setHistory] = useState([]);
-  const [userId, setUserId] = useState(loadFromLocalStorage('userId', `user_${Date.now()}`));
+  const [userId] = useState(loadFromLocalStorage('userId', `user_${Date.now()}`));
   const [theme, setTheme] = useState(loadFromLocalStorage('theme', 'light'));
   const [fontSize, setFontSize] = useState(loadFromLocalStorage('fontSize', 'text-base'));
-  const [stockPrice, setStockPrice] = useState(null);
 
   useEffect(() => {
     const storedHistory = loadFromLocalStorage('history', []);
@@ -27,20 +26,7 @@ function App() {
   }, [theme, fontSize]);
 
   // WebSocket connection for real-time updates
-  useEffect(() => {
-    const socket = new WebSocket('ws://localhost:6789');
-
-    socket.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      setStockPrice(data.price);
-    };
-
-    socket.onclose = () => {
-      console.log('WebSocket connection closed');
-    };
-
-    return () => socket.close();
-  }, []);
+  
 
   const handleClearHistory = () => {
     setHistory([]);
@@ -84,12 +70,7 @@ function App() {
         {history.length > 0 && (
           <HistoryList history={history} theme={theme} fontSize={fontSize} clearHistory={handleClearHistory} themes={themes} />
         )}
-        {stockPrice !== null && (
-          <div className={`mt-4 p-4 bg-yellow-100 rounded-lg shadow ${fontSize}`}>
-            <h2 className={`text-lg font-bold ${themes[theme].text}`}>Live Stock Price: AAPL</h2>
-            <p className={themes[theme].text}>${stockPrice}</p>
-          </div>
-        )}
+        
       </div>
     </div>
   );

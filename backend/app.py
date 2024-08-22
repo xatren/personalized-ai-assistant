@@ -5,6 +5,7 @@ from nlp_module.nlp_processor import NLPProcessor
 app = Flask(__name__)
 CORS(app)  # Enable CORS
 
+# Initialize the NLPProcessor
 nlp_processor = NLPProcessor()
 
 @app.route('/')
@@ -21,6 +22,7 @@ def ask():
     if not question:
         return jsonify({"error": "Question is required"}), 400
 
+    # Process the input using NLPProcessor
     answer = nlp_processor.process_input(question, context, user_id)
     return jsonify({"answer": answer})
 
