@@ -2,13 +2,13 @@
 import React, { useState } from 'react';
 import Spinner from '../Spinner';
 
-function QuestionForm({ onSubmit, theme, fontSize, themes }) {
+function QuestionForm({ onSubmit, theme, fontSize, themes, loading }) { // Add loading prop
   const [question, setQuestion] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit(question);
-    setQuestion('');
+    setQuestion(''); // Clear the question input after submission
   };
 
   return (
@@ -29,8 +29,9 @@ function QuestionForm({ onSubmit, theme, fontSize, themes }) {
       <button
         type="submit"
         className={`w-full ${themes[theme].button} font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-opacity-50 ${fontSize}`}
+        disabled={loading} // Disable button while loading
       >
-        <Spinner />
+        {loading ? <Spinner /> : 'Ask'} {/* Display spinner only when loading */}
       </button>
     </form>
   );
