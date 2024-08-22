@@ -8,7 +8,7 @@ def get_news(query):
         'apiKey': NEWS_API_KEY,
         'language': 'en',
         'sortBy': 'publishedAt',
-        'pageSize': 10  # Number of news articles to retrieve
+        'pageSize': 25  # Number of news articles to retrieve
     }
     response = requests.get(base_url, params=params)
     if response.status_code == 200:
