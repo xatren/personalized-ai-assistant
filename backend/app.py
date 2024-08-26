@@ -4,7 +4,7 @@ from nlp_module.nlp_processor import NLPProcessor
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS
-
+#gittest
 # Initialize the NLPProcessor
 nlp_processor = NLPProcessor()
 
