@@ -8,6 +8,8 @@ from news import get_news
 from stock import get_stock_price  
 
 
+
+
 class NLPProcessor:
     def __init__(self):
         # Initialize the NLP pipeline
@@ -112,6 +114,9 @@ class NLPProcessor:
             # Default fallback if the intent is not recognized
             return "I'm sorry, I didn't understand your request."
 
+
+
+
     def extract_city(self, question):
         # Expanded list of cities
         city_names = [
@@ -119,8 +124,7 @@ class NLPProcessor:
             "San Francisco", "Los Angeles", "Chicago", "Moscow",
             "Mumbai", "Sydney", "Shanghai", "Toronto", "Madrid", 
             "Rome", "Dubai", "Istanbul", "Beijing", "Hong Kong", 
-            "Singapore", "Mexico City", "Rio de Janeiro", "Cape Town", "Ankara", "Athens", "Konya", "Izmir", "Bursa",
-            "Antalya", "Adana", "Mersin", "Eskisehir", "Diyarbakir", "Samsun", "Denizli", "Kayseri", "Malatya", "Kahramanmaras",
+            "Singapore", "Mexico City", "Rio de Janeiro", "Cape Town", "Ankara", "Athens"
         ]
 
         words = question.split()
@@ -161,5 +165,3 @@ class NLPProcessor:
         intent = self.classifier.predict(X_test)[0]
         print(f"Recognized intent: {intent}")  # Debugging statement
         return intent
-
-
