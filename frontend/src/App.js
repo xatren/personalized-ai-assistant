@@ -33,7 +33,7 @@ function App() {
     localStorage.removeItem('history');
   };
 
-  const handleSubmit = async (question) => {
+  const handleSubmit = async (searchParams) => {
     setLoading(true);
     try {
       const res = await fetch('http://127.0.0.1:5000/ask', {
@@ -41,20 +41,31 @@ function App() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ question, context: '', user_id: userId }),
+        body: JSON.stringify({
+          question: searchParams.question,
+          context: '',
+          user_id: userId,
+          searchIn: searchParams.searchIn,
+          fromDate: searchParams.fromDate,
+          toDate: searchParams.toDate,
+          sources: searchParams.sources,
+          domains: searchParams.domains,
+          excludeDomains: searchParams.excludeDomains
+        }),
       });
-
+  
       const data = await res.json();
       setResponse(data.answer);
-      const updatedHistory = [{ question, response: data.answer }, ...history];
+      const updatedHistory = [{ question: searchParams.question, response: data.answer }, ...history];
       setHistory(updatedHistory);
       saveToLocalStorage('history', updatedHistory);
     } catch (error) {
       setResponse('An error occurred while fetching the response.');
     } finally {
-      setLoading(false); // Ensure loading is set to false in both success and failure scenarios
+      setLoading(false);
     }
   };
+  
 
   return (
     <div className={`min-h-screen flex flex-col items-center justify-center transition-colors duration-500 ${themes[theme].background}`}>
